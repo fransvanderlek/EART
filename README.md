@@ -1,2 +1,2 @@
 # EnterpriseArchitectJOD
-Tool to enable creating document reports from EA using templating.
+Tool to enable creating document reports from Sparx's Enterprise Architect using templating.
