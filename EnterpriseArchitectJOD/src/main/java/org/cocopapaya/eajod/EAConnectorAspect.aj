@@ -1,0 +1,32 @@
+package org.cocopapaya.eajod;
+
+import org.sparx.Connector;
+import org.sparx.Element;
+import org.sparx.Repository;
+
+
+public aspect EAConnectorAspect {
+	
+	public Element Connector.getClient(){
+		Repository repository = EARepositoryFactory.getInstance().getRepository();
+		
+		return repository.GetElementByID(this.GetClientID());
+		
+	}
+	
+	public Element Connector.getSupplier(){
+		Repository repository = EARepositoryFactory.getInstance().getRepository();
+		
+		return repository.GetElementByID(this.GetSupplierID());
+		
+	}
+	
+
+	public String Connector.getName(){
+		return this.GetName();
+	}
+	
+	public String Connector.getNotes(){
+		return this.GetNotes();
+	}
+}
