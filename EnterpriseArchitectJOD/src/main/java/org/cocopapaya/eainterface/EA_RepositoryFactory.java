@@ -8,17 +8,27 @@ import net.cmp4oaw.ea_com.repository.EA_Repository;
 
 public class EA_RepositoryFactory {
 
+	private static final String DEFAULT = "DEFAULT";
 	private EA_Repository repo;
 	private String eapFileLocation;
 	private static Map<String, EA_RepositoryFactory> INSTANCES = new HashMap<>();
 
-	public static void registerEapFile(String eapFileLocation) {
-		INSTANCES.put("DEFAULT", new EA_RepositoryFactory(eapFileLocation));
+	public static boolean registerEapFile(String eapFileLocation) {
+		
+		boolean registrationOccured = false;		
+		
+		if( !INSTANCES.containsKey(DEFAULT)){
+			INSTANCES.put(DEFAULT, new EA_RepositoryFactory(eapFileLocation));
+			registrationOccured = true;
+		}
+		
+		return registrationOccured;
+		
 	}
 
 	public static EA_RepositoryFactory getInstance() {
 
-		return INSTANCES.get("DEFAULT");
+		return INSTANCES.get(DEFAULT);
 	}
 
 	private EA_RepositoryFactory(String eapFileLocation) {
