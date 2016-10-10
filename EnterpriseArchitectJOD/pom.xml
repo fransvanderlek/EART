@@ -12,7 +12,8 @@
 		<java.target.version>1.8</java.target.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<deploy-directory>${basedir}/deploy</deploy-directory>
-		<ssjavacom.path>${basedir}/ea_runtime</ssjavacom.path>
+		<ssjavacom.path>${basedir}/ea_runtime</ssjavacom.path>		
+    	<toolsjarSystemPath>${java.home}/../../lib/tools.jar</toolsjarSystemPath>  
 	</properties>
 
 	<dependencies>
