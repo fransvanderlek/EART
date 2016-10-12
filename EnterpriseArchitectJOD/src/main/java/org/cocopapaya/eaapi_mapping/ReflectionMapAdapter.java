@@ -1,8 +1,8 @@
 package org.cocopapaya.eaapi_mapping;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ReflectionMapper extends NullMap<String, Object> {
+public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 	private final List<ListConverter> listConverters = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class ReflectionMapper extends NullMap<String, Object> {
 
 	private final String asString;
 	
-	public ReflectionMapper(Object innerObject) {
+	public ReflectionMapAdapter(Object innerObject) {
 		this.getValues.putAll(this.collectProperties(innerObject));
 		this.listConverters.addAll(defaultConverters());
 		this.asString = innerObject.toString();
@@ -84,12 +84,12 @@ public class ReflectionMapper extends NullMap<String, Object> {
 
 			@Override
 			public List<Object> asList(Object input) {
-				return Arrays.asList((Array) input);
+				return Arrays.asList((Object[]) input);
 			}
 
 			@Override
 			public boolean canConvert(Object input) {
-				return input instanceof Array;
+				return input instanceof Object[];
 			}
 		});
 
@@ -117,13 +117,13 @@ public class ReflectionMapper extends NullMap<String, Object> {
 				for (Object entry : converter.asList(object)) {
 
 					// limitation: list of lists will not work.
-					listOfMappers.add(new ReflectionMapper(entry));
+					listOfMappers.add(new ReflectionMapAdapter(entry));
 				}
 
 				return listOfMappers;
 			}
 		}
-		return new ReflectionMapper(object);
+		return new ReflectionMapAdapter(object);
 	}
 
 	private String decapitalize(String input) {
@@ -135,7 +135,7 @@ public class ReflectionMapper extends NullMap<String, Object> {
 	}
 
 	private boolean isGetter(Method method) {
-		return method.isAccessible() && method.getParameterCount() == 0
+		return Modifier.isPublic(method.getModifiers()) && method.getParameterCount() == 0
 				&& method.getName().toLowerCase().startsWith("get") && method.getName().length() > 3;
 	}
 
