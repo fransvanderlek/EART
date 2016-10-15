@@ -107,7 +107,13 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 			@Override
 			public List<Object> asList(Object input) {
-				return new ArrayList<Object>((Collection) input);
+				Iterable iterable = (Iterable) input;
+	
+				return new ArrayList<Object>(){{					
+					for( Object item : iterable){
+						add(item);
+					}					
+				}};
 			}
 
 			@Override
