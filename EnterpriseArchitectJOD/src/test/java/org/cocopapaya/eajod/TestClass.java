@@ -2,8 +2,12 @@ package org.cocopapaya.eajod;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestClass {
+	
+	public String MyName = "test";
 
 	public String getTitle() {
 		return "hello";
@@ -29,5 +33,10 @@ public class TestClass {
 		
 		return new TestDelegate[] { new TestDelegate(), new TestDelegate() };
 	}
+	
+	public Map someProps = new HashMap(){{
+		put("prop1", "prop2");
+		put("delegate", new TestDelegate());
+	}};
 
 }

@@ -15,9 +15,9 @@ public class MapAdapterTest {
 	TestClass example = new TestClass();
 
 	ReflectionMapAdapter adapter = new ReflectionMapAdapter(example);
-	
+
 	@Before
-	public void setup(){
+	public void setup() {
 		adapter.addListConverter(new EACollectionListConverter());
 	}
 
@@ -42,7 +42,7 @@ public class MapAdapterTest {
 	}
 
 	@Test
-	public void testList() {
+	public void testMapCollection() {
 
 		List childList = (List) adapter.get("children");
 
@@ -59,24 +59,58 @@ public class MapAdapterTest {
 		}
 
 	}
-	
+
 	@Test
 	public void testArray() {
 
 		List childList = (List) adapter.get("arrayChildren");
 
-		Assert.assertEquals("Size error when accessing [children]", example.getArrayChildren().length, childList.size());
+		Assert.assertEquals("Size error when accessing [children]", example.getArrayChildren().length,
+				childList.size());
 
 		int index = 0;
 		for (TestDelegate delegate : example.getArrayChildren()) {
 			String expectedFoo = delegate.getFoo();
 			String actualFoo = ((Map) childList.get(index)).get("foo").toString();
-			Assert.assertEquals("Erro comparing foo of child[" + index + "]", expectedFoo, actualFoo);
+			Assert.assertEquals("Error comparing foo of child[" + index + "]", expectedFoo, actualFoo);
 
 			index++;
 
 		}
 
+	}
+
+	@Test
+	public void testRetrievePublicField() {
+		String expectedField = "myName";
+		Assert.assertEquals("Error retrieving field [" + expectedField + "]", example.MyName,
+				adapter.get(expectedField).toString());
+	}
+	
+	@Test
+	public void testRetrieveMapProps(){
+		
+		String propName = "prop1";
+		String propField = "someProps";
+		
+		String expected = example.someProps.get("prop1").toString();
+		String actual = ((Map) adapter.get(propField)).get(propName).toString(); 
+		
+		Assert.assertEquals("Error retrieving  [" + propField + "]["+propName+"]", expected,actual);
+			
+	}
+	
+	@Test
+	public void testRetrieveMapObject(){
+		
+		String propName = "delegate";
+		String propField = "someProps";
+		
+		String expected = ((TestDelegate) example.someProps.get("delegate")).getFoo();
+		String actual = ((Map) ((Map) adapter.get(propField)).get(propName)).get("foo").toString(); 
+		
+		Assert.assertEquals("Error retrieving [" + propField + "]["+propName+"]", expected,actual);
+			
 	}
 
 }

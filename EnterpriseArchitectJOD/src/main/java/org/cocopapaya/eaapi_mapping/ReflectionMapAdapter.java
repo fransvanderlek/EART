@@ -40,8 +40,18 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 		Map<String, Operation> props = new HashMap<>();
 
 		if (obj instanceof Map) {
-			// maps are not supported
-			throw new UnsupportedOperationException();
+			Map objectMap = (Map) obj;
+			
+			for( Object key : objectMap.keySet()){
+				props.put(key.toString(), new Operation() {
+					
+					@Override
+					public Object execute(Object... params) throws Exception {
+						return convertObject( objectMap.get(key));
+					}
+				});
+			}			
+			return props;						
 		}
 
 		Class<? extends Object> clasz = obj.getClass();
@@ -63,7 +73,7 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 		for (Field field : fields) {
 
-			if (field.isAccessible()) {
+			if ( Modifier.isPublic(field.getModifiers())) {
 				props.put(fieldNameAsProperty(field), new Operation() {
 
 					@Override
@@ -102,7 +112,7 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 			@Override
 			public boolean canConvert(Object input) {
-				return input instanceof Collection;
+				return input instanceof Iterable;
 			}
 		});
 
@@ -123,6 +133,11 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 				return listOfMappers;
 			}
 		}
+		
+		if (object instanceof String){
+			return object.toString();
+		}
+		
 		return new ReflectionMapAdapter(object);
 	}
 
@@ -146,7 +161,8 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 	@Override
 	public Object get(Object key) {
 		try {
-			return this.getValues.get(key).execute();
+			//for future Map support, we probably want to convert here actually.
+			return ((Operation) this.getValues.get(key)).execute();
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -173,32 +189,20 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 	public boolean containsKey(Object key) {
 		return this.getValues.containsKey(key);
 	}
+	
+	@Override
+	public Set<java.util.Map.Entry<String, Object>> entrySet() {
+		try {
+			return new HashMap<String,Object>(){{
+				for( String key : getValues.keySet()){
+					this.put(key, getValues.get(key).execute());
+				}
+				
+			}}.entrySet();
+		} catch (Exception e) {
+			throw new RuntimeException();
+		}				
+	}
+	
 
 }
-
-/**
- * 
- * private Map<String, Object> collectProperties(final Object obj) {
- * 
- * Class<? extends Object> clasz = obj.getClass(); Method[] methods =
- * clasz.getMethods(); Field[] fields = clasz.getFields();
- * 
- * Map<String, Object> props = new HashMap<>();
- * 
- * try {
- * 
- * for (Method method : methods) {
- * 
- * if (isGetter(method)) { values.put(getterNameAsProperty(method),
- * convertObject(method.invoke(obj, new Object[] {}))); } }
- * 
- * for (Field field : fields) {
- * 
- * if (field.isAccessible()) { values.put(fieldNameAsProperty(field),
- * convertObject(field.get(obj))); } }
- * 
- * } catch (Exception e) { // we really should never be here throw new
- * RuntimeException(e); }
- * 
- * return props; }
- */
