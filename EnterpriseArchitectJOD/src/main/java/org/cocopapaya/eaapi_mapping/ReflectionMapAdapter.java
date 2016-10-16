@@ -199,12 +199,14 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 	@Override
 	public Set<java.util.Map.Entry<String, Object>> entrySet() {
 		try {
-			return new HashMap<String,Object>(){{
+			Set<java.util.Map.Entry<String, Object>> theSet = new HashMap<String,Object>(){{
 				for( String key : getValues.keySet()){
 					this.put(key, getValues.get(key).execute());
 				}
 				
 			}}.entrySet();
+			
+			return theSet;
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}				

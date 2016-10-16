@@ -2,12 +2,13 @@ package org.cocopapaya.eajod;
 
 import java.io.File;
 
-import org.cocopapaya.eainterface.EA_DocumentGenerator;
+import org.cocopapaya.eadoc.EaDocumentGenerator;
 import org.cocopapaya.eainterface.EA_RepositoryFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;
 import org.odftoolkit.simple.table.Table;
+import org.sparx.Repository;
 
 import freemarker.ext.beans.BeansWrapper;
 import junit.framework.Assert;
@@ -22,11 +23,15 @@ public class DocumentGenerationTest {
 
 	@Before
 	public void setupBeforeTests() throws Exception {
-
-		EA_RepositoryFactory.registerEapFile(this.getClass().getResource("/ea_jod.eap").getPath());
-		EA_Repository eaRepo = EA_RepositoryFactory.getInstance().getRepository();
 		
-		EA_DocumentGenerator factory = new EA_DocumentGenerator();
+		String eapPath = this.getClass().getResource("/ea_jod.eap").getPath().substring(1);
+		
+		System.out.println("passing "+eapPath+" to repository factory.");
+
+		EARepositoryFactory.registerEapFile(eapPath);
+		Repository eaRepo = EARepositoryFactory.getInstance().getRepository();
+		
+		EaDocumentGenerator factory = new EaDocumentGenerator();
 
 		DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
 		BeansWrapper objectWrapper = (BeansWrapper) documentTemplateFactory.getFreemarkerConfiguration()

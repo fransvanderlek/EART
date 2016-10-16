@@ -14,6 +14,11 @@ public class EARepositoryFactory {
 	private String eapFileLocation;
 	private static Map<String,EARepositoryFactory> INSTANCES = new HashMap<>();
 	
+	/**
+	 * Note file locations of the form /C:\path\to\file give internal errors on COM level!
+	 * 
+	 * @param eapFileLocation
+	 */
 	public static void registerEapFile(String eapFileLocation){
 		INSTANCES.put( "DEFAULT", new EARepositoryFactory (eapFileLocation));
 	}
@@ -35,7 +40,7 @@ public class EARepositoryFactory {
 		
 		repo = new Repository();	
 		repo.OpenFile(this.eapFileLocation);
-		
+				
 		Runtime.getRuntime().addShutdownHook(new Thread( new Runnable() {
 			
 			@Override
