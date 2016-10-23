@@ -103,9 +103,6 @@ public class EaDocumentGenerator {
 
 				}
 			}
-			
-			
-
 		}
 		
 		System.out.println("Failed to find '"+part+"', could only resolve up till "+foundPath);

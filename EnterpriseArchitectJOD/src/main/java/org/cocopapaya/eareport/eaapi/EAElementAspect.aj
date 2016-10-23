@@ -1,11 +1,7 @@
 package org.cocopapaya.eareport.eaapi;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.sparx.Element;
 import org.sparx.Repository;
-import org.sparx.TaggedValue;
 
 public aspect EAElementAspect {
 
