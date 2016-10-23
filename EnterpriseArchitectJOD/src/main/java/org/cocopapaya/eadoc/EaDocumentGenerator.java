@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
-import org.cocopapaya.eaapi_mapping.ReflectionMapAdapter;
 import org.cocopapaya.eajod.EARepositoryImageSource;
 import org.sparx.Collection;
 import org.sparx.Diagram;

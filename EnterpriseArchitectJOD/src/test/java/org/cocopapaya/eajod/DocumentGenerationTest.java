@@ -3,7 +3,6 @@ package org.cocopapaya.eajod;
 import java.io.File;
 
 import org.cocopapaya.eadoc.EaDocumentGenerator;
-import org.cocopapaya.eainterface.EA_RepositoryFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;
@@ -12,7 +11,6 @@ import org.sparx.Repository;
 
 import freemarker.ext.beans.BeansWrapper;
 import junit.framework.Assert;
-import net.cmp4oaw.ea_com.repository.EA_Repository;
 import net.sf.jooreports.templates.DocumentTemplate;
 import net.sf.jooreports.templates.DocumentTemplateFactory;
 

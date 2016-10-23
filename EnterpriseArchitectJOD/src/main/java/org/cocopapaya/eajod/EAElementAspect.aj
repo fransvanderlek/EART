@@ -23,33 +23,4 @@ public aspect EAElementAspect {
 		return this.GetClassifierID() ==0;
 	}
 	
-	public String Element.getVersion(){
-		return this.GetVersion();
-	}
-
-	
-	public String Element.getName(){
-		return this.GetName();
-	}
-	
-	public String Element.getType(){
-		return this.GetType();
-	}
-	
-	public Collection<TaggedValue> Element.getTaggedValues(){
-		
-		Collection<TaggedValue> tags = new ArrayList<>();
-		
-		for( TaggedValue tg : this.GetTaggedValues() ){
-			tags.add(tg);
-		}
-		
-		return tags;
-		
-	}
-	
-	public String Element.getNotes(){
-		return this.GetNotes();
-	}
-	
 }

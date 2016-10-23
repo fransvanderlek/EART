@@ -3,9 +3,7 @@ package org.cocopapaya.eajod;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eaapi_mapping.EACollectionListConverter;
 import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
-import org.cocopapaya.eaapi_mapping.ReflectionMapAdapter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,13 +13,7 @@ public class MapAdapterTest {
 
 	TestClass example = new TestClass();
 
-	//ReflectionMapAdapter adapter = new ReflectionMapAdapter(example);
 	LazyMapAdapter adapter = new LazyMapAdapter(example);
-
-	@Before
-	public void setup() {
-		//adapter.addListConverter(new EACollectionListConverter());
-	}
 
 	@Test
 	public void testSimpleGetter() {

@@ -7,17 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eaapi_mapping.ReflectionMapAdapter;
-import org.cocopapaya.eainterface.EA_DocumentGenerator;
-import org.cocopapaya.eainterface.EA_RepositoryFactory;
+import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;
 import org.odftoolkit.simple.table.Table;
 
-import freemarker.ext.beans.BeansWrapper;
 import junit.framework.Assert;
-import net.cmp4oaw.ea_com.repository.EA_Repository;
 import net.sf.jooreports.templates.DocumentTemplate;
 import net.sf.jooreports.templates.DocumentTemplateFactory;
 
@@ -27,14 +23,11 @@ public class ReflectionMapDocumentGenerationTest {
 	
 	TestClass example = new TestClass();
 
-	ReflectionMapAdapter adapter = new ReflectionMapAdapter(example);
+	LazyMapAdapter adapter = new LazyMapAdapter(example);
 
 
 	@Before
 	public void setupBeforeTests() throws Exception {
-
-			
-		EA_DocumentGenerator factory = new EA_DocumentGenerator();
 
 		DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
 

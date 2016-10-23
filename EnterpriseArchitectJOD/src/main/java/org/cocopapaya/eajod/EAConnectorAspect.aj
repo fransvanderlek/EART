@@ -20,13 +20,4 @@ public aspect EAConnectorAspect {
 		return repository.GetElementByID(this.GetSupplierID());
 		
 	}
-	
-
-	public String Connector.getName(){
-		return this.GetName();
-	}
-	
-	public String Connector.getNotes(){
-		return this.GetNotes();
-	}
 }
