@@ -20,7 +20,10 @@ public class EARepositoryFactory {
 	 * @param eapFileLocation
 	 */
 	public static void registerEapFile(String eapFileLocation){
-		INSTANCES.put( "DEFAULT", new EARepositoryFactory (eapFileLocation));
+		if( !INSTANCES.containsKey("DEFAULT")){
+			INSTANCES.put( "DEFAULT", new EARepositoryFactory (eapFileLocation));
+		}
+		
 	}
 	
 	public static EARepositoryFactory getInstance(){

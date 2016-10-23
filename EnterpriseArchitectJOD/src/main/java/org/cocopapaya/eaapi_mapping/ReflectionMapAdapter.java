@@ -17,13 +17,12 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 	private final Map<String, Operation> getValues = new HashMap<>();
 
-	private final String asString;
-	
+	private String asString;
+
 	public ReflectionMapAdapter(Object innerObject) {
 		this.getValues.putAll(this.collectProperties(innerObject));
 		this.listConverters.addAll(defaultConverters());
-		this.asString = innerObject.toString();
-
+		this.asString = String.valueOf(innerObject);
 	}
 
 	public void addListConverter(ListConverter converter) {
@@ -39,19 +38,23 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 		Map<String, Operation> props = new HashMap<>();
 
+		if (obj == null) {
+			return props;
+		}
+
 		if (obj instanceof Map) {
 			Map objectMap = (Map) obj;
-			
-			for( Object key : objectMap.keySet()){
+
+			for (Object key : objectMap.keySet()) {
 				props.put(key.toString(), new Operation() {
-					
+
 					@Override
 					public Object execute(Object... params) throws Exception {
-						return convertObject( objectMap.get(key));
+						return convertObject(objectMap.get(key));
 					}
 				});
-			}			
-			return props;						
+			}
+			return props;
 		}
 
 		Class<? extends Object> clasz = obj.getClass();
@@ -64,7 +67,7 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 				props.put(getterNameAsProperty(method), new Operation() {
 
 					@Override
-					public Object execute(Object... objects ) throws Exception {
+					public Object execute(Object... objects) throws Exception {
 						return convertObject(method.invoke(obj, new Object[] {}));
 					}
 				});
@@ -73,11 +76,11 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 		for (Field field : fields) {
 
-			if ( Modifier.isPublic(field.getModifiers())) {
+			if (Modifier.isPublic(field.getModifiers())) {
 				props.put(fieldNameAsProperty(field), new Operation() {
 
 					@Override
-					public Object execute(Object... objects ) throws Exception {
+					public Object execute(Object... objects) throws Exception {
 						return convertObject(field.get(obj));
 					}
 				});
@@ -108,12 +111,14 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 			@Override
 			public List<Object> asList(Object input) {
 				Iterable iterable = (Iterable) input;
-	
-				return new ArrayList<Object>(){{					
-					for( Object item : iterable){
-						add(item);
-					}					
-				}};
+
+				return new ArrayList<Object>() {
+					{
+						for (Object item : iterable) {
+							add(item);
+						}
+					}
+				};
 			}
 
 			@Override
@@ -139,11 +144,15 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 				return listOfMappers;
 			}
 		}
-		
-		if (object instanceof String){
+
+		if (object instanceof String) {
 			return object.toString();
 		}
 		
+		if ( object instanceof Boolean){
+			return object;
+		}
+
 		return new ReflectionMapAdapter(object);
 	}
 
@@ -157,17 +166,31 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 
 	private boolean isGetter(Method method) {
 		return Modifier.isPublic(method.getModifiers()) && method.getParameterCount() == 0
-				&& method.getName().toLowerCase().startsWith("get") && method.getName().length() > 3;
+				&& ((method.getName().toLowerCase().startsWith("get") && method.getName().length() > 3)
+						|| (method.getName().toLowerCase().startsWith("is") && method.getName().length() > 2));
 	}
 
 	private String getterNameAsProperty(Method input) {
-		return this.decapitalize(input.getName().substring(3, input.getName().length()));
+		String nameLower = input.getName().toLowerCase();
+		
+		if( nameLower.startsWith("get")){
+			return this.decapitalize(input.getName().substring(3));
+			
+		} else if ( nameLower.startsWith("is")){
+			return this.decapitalize(input.getName().substring(2));
+			
+		} else {
+			return input.getName();
+		}
+		
+		
 	}
 
 	@Override
 	public Object get(Object key) {
 		try {
-			//for future Map support, we probably want to convert here actually.
+			// for future Map support, we probably want to convert here
+			// actually.
 			return ((Operation) this.getValues.get(key)).execute();
 
 		} catch (Exception e) {
@@ -195,22 +218,24 @@ public class ReflectionMapAdapter extends NullMap<String, Object> {
 	public boolean containsKey(Object key) {
 		return this.getValues.containsKey(key);
 	}
-	
+
 	@Override
 	public Set<java.util.Map.Entry<String, Object>> entrySet() {
 		try {
-			Set<java.util.Map.Entry<String, Object>> theSet = new HashMap<String,Object>(){{
-				for( String key : getValues.keySet()){
-					this.put(key, getValues.get(key).execute());
+			Set<java.util.Map.Entry<String, Object>> theSet = new HashMap<String, Object>() {
+				{
+					for (String key : getValues.keySet()) {
+						this.put(key, getValues.get(key).execute());
+					}
+
 				}
-				
-			}}.entrySet();
-			
+			}.entrySet();
+
 			return theSet;
 		} catch (Exception e) {
-			throw new RuntimeException();
-		}				
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
 	}
-	
 
 }

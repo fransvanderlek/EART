@@ -10,6 +10,10 @@ import org.sparx.TaggedValue;
 public aspect EAElementAspect {
 
 	public Element Element.getClassifier(){
+		if( this.GetClassifierID() ==0 ){
+			return this;
+		}
+		
 		Repository repository = EARepositoryFactory.getInstance().getRepository();
 
 		return repository.GetElementByID(this.GetClassifierID());

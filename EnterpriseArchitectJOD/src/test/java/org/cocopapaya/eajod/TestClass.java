@@ -20,6 +20,14 @@ public class TestClass {
 	public String nonGetter() {
 		return "not-a-getter";
 	}
+	
+	public Integer getMyInteger(){
+		return new Integer(3);
+	}
+	
+	public int getMyInt(){
+		return 6;
+	}
 
 	public TestDelegate getDelegate() {
 		return new TestDelegate();

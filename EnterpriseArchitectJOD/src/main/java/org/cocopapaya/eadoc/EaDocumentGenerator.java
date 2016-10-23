@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
 import org.cocopapaya.eaapi_mapping.ReflectionMapAdapter;
 import org.cocopapaya.eajod.EARepositoryImageSource;
 import org.sparx.Collection;
@@ -49,7 +50,7 @@ public class EaDocumentGenerator {
 
 		Package target = getByPath(repository.GetModels(), this.initialPackage);
 		Map <String, Object> context = new HashMap<>();
-		context.put("rootPackage", new ReflectionMapAdapter(target));
+		context.put("rootPackage", new LazyMapAdapter(target));
 		
 		//TODO: add the repository itself to this context, to be available from the templates
 		for(Diagram diagram : yieldDiagrams(target)){
