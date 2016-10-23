@@ -1,5 +1,9 @@
-/target/
-/deploy/
+.classpath
+.project
+.settings/
+target/
+
+deploy/*
 
 
 *.class
