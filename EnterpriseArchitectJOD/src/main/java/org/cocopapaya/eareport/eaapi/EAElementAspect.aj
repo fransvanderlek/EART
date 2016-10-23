@@ -1,4 +1,4 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.eaapi;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
+import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;

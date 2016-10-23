@@ -1,4 +1,4 @@
-package org.cocopapaya.eaapi_mapping;
+package org.cocopapaya.eareport.eaapi_adapter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package org.cocopapaya.eadoc;
+package org.cocopapaya.eareport.generator;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eaapi_mapping.LazyMapAdapter;
-import org.cocopapaya.eajod.EARepositoryImageSource;
+import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
 import org.sparx.Collection;
 import org.sparx.Diagram;
 import org.sparx.Package;

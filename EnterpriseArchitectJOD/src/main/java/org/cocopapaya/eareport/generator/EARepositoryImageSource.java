@@ -1,4 +1,4 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.generator;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

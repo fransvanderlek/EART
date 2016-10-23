@@ -1,10 +1,11 @@
-package org.cocopapaya.eadoc;
+package org.cocopapaya.eareport.cmd;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 
-import org.cocopapaya.eajod.EARepositoryFactory;
+import org.cocopapaya.eareport.eaapi.EARepositoryFactory;
+import org.cocopapaya.eareport.generator.EaDocumentGenerator;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.DefaultObjectWrapper;

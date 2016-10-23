@@ -2,7 +2,8 @@ package org.cocopapaya.eajod;
 
 import java.io.File;
 
-import org.cocopapaya.eadoc.EaDocumentGenerator;
+import org.cocopapaya.eareport.eaapi.EARepositoryFactory;
+import org.cocopapaya.eareport.generator.EaDocumentGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;

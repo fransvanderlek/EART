@@ -1,4 +1,4 @@
-package org.cocopapaya.eaapi_mapping;
+package org.cocopapaya.eareport.eaapi_adapter;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.eaapi;
 
 import org.sparx.Element;
 import org.sparx.Repository;
