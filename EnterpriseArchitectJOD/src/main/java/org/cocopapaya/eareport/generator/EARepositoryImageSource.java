@@ -30,7 +30,7 @@ public class EARepositoryImageSource extends AbstractInputStreamImageSource {
 		final File targetFile = new File("diagram_" + imageGUID + ".png");
 		this.eaRepository.GetProjectInterface().PutDiagramImageToFile(this.imageGUID, targetFile.getAbsolutePath(), 1);
 		byte[] contents = IOUtils.toByteArray(new FileInputStream(targetFile));
-		targetFile.delete();	
+		targetFile.deleteOnExit();
 				
 		return new ByteArrayInputStream(contents);
 	}
