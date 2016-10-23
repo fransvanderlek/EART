@@ -3,7 +3,7 @@
 .settings/
 target/
 
-deploy/*
+deploy/
 
 
 *.class
