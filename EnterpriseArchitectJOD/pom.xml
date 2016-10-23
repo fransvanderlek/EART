@@ -13,26 +13,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<deploy-directory>${basedir}/deploy</deploy-directory>
 		<ssjavacom.path>"C:\Program Files (x86)\Sparx Systems\EA\Java API"</ssjavacom.path>
-		<!-- <toolsjarSystemPath>${java.home}/../../lib/tools.jar</toolsjarSystemPath> -->
 	</properties>
 
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.odftoolkit/simple-odf -->
 		<dependency>
 			<groupId>org.apache.odftoolkit</groupId>
 			<artifactId>simple-odf</artifactId>
 			<version>0.8.1-incubating</version>
 			<scope>test</scope>
 		</dependency>
-
-
-		<dependency>
-			<groupId>commons-jxpath</groupId>
-			<artifactId>commons-jxpath</artifactId>
-			<version>1.3</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -78,13 +68,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.cmp4oaw</groupId>
-			<artifactId>ea_com_interface</artifactId>
-			<version>2.1-SNAPSHOT</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
@@ -129,8 +112,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<!-- <mainClass>org.cocopapaya.eajod.UmlJod</mainClass> -->
-							<mainClass>org.cocopapaya.eadoc.EaDocShell</mainClass>
+							<mainClass>org.cocopapaya.eareport.cmd.EaDocShell</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
@@ -199,10 +181,6 @@
 						<weaveDependency>
 							<groupId>org.sparx</groupId>
 							<artifactId>eaapi</artifactId>
-						</weaveDependency>
-						<weaveDependency>
-							<groupId>net.cmp4oaw</groupId>
-							<artifactId>ea_com_interface</artifactId>
 						</weaveDependency>
 					</weaveDependencies>
 				</configuration>
