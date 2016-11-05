@@ -3,7 +3,6 @@ package org.cocopapaya.eareport.eaapi_adapter;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
 import org.cocopapaya.eareport.testsupport.TestClass;
 import org.cocopapaya.eareport.testsupport.TestDelegate;
 import org.junit.Before;
@@ -15,7 +14,8 @@ public class MapAdapterTest {
 
 	TestClass example = new TestClass();
 
-	LazyMapAdapter adapter = new LazyMapAdapter(example);
+	//LazyMapAdapter adapter = new LazyMapAdapter(example);
+	Map<String,Object> adapter = MapAdapterProxy.instance(example);
 
 	@Test
 	public void testSimpleGetter() {

@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
+import org.cocopapaya.eareport.eaapi_adapter.MapAdapterProxy;
+import org.cocopapaya.eareport.eaapi_adapter.ObjectWrapper;
 import org.sparx.Collection;
 import org.sparx.Diagram;
 import org.sparx.Package;
@@ -30,7 +31,7 @@ public class EARepositoryContext implements IContextRepository {
 		Map <String, Object> context = new HashMap<>();
 		
 		Package target = getByPath(repository.GetModels(), this.initialPackage);
-		context.put("rootPackage", new LazyMapAdapter(target));
+		context.put("rootPackage", (new ObjectWrapper()).wrap(target));
 		
 		//TODO: add the repository itself to this context, to be available from the templates
 		for(Diagram diagram : yieldDiagrams(target)){

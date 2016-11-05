@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.cocopapaya.eareport.contextmodel.EARepositoryModule;
 import org.cocopapaya.eareport.contextmodel.IContextRepository;
-import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
+import org.cocopapaya.eareport.eaapi_adapter.MapAdapterProxy;
 import org.cocopapaya.eareport.generator.EADocumentGeneratorModule;
 import org.cocopapaya.eareport.generator.IDocumentGenerator;
 import org.cocopapaya.eareport.testsupport.TestClass;
@@ -36,7 +36,7 @@ public class MockContextDocumentGenerationTest {
 
 	TestClass example = new TestClass();
 
-	LazyMapAdapter adapter = new LazyMapAdapter(example);
+	Map<String,Object> adapter = MapAdapterProxy.instance(example);
 
 	@Before
 	public void setupBeforeTests() throws Exception {

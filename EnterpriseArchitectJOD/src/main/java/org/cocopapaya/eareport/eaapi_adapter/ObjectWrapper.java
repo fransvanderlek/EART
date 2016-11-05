@@ -30,7 +30,7 @@ public class ObjectWrapper {
 				} );
 
 			} else {
-				return new LazyMapAdapter(input);
+				return MapAdapterProxy.instance(input);
 
 			}
 		} else {
