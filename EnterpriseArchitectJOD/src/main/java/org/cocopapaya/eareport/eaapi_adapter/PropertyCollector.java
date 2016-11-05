@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 public class PropertyCollector {
 
+	@SuppressWarnings("rawtypes")
 	public Map<String, Object> collectProperties(final Object input) {
 		Map<String, Object> props = new HashMap<>();
 

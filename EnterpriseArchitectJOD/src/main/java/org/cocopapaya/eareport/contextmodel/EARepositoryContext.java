@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eareport.eaapi_adapter.MapAdapterProxy;
 import org.cocopapaya.eareport.eaapi_adapter.ObjectWrapper;
 import org.sparx.Collection;
 import org.sparx.Diagram;

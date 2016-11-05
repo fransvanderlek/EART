@@ -2,18 +2,13 @@ package org.cocopapaya.eareport.generator;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cocopapaya.eareport.contextmodel.EARepositoryModule;
 import org.cocopapaya.eareport.contextmodel.IContextRepository;
 import org.cocopapaya.eareport.eaapi_adapter.MapAdapterProxy;
-import org.cocopapaya.eareport.generator.EADocumentGeneratorModule;
-import org.cocopapaya.eareport.generator.IDocumentGenerator;
 import org.cocopapaya.eareport.testsupport.TestClass;
 import org.cocopapaya.eareport.testsupport.TestDelegate;
 import org.junit.Before;
@@ -27,8 +22,6 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 
 import junit.framework.Assert;
-import net.sf.jooreports.templates.DocumentTemplate;
-import net.sf.jooreports.templates.DocumentTemplateFactory;
 
 public class MockContextDocumentGenerationTest {
 
