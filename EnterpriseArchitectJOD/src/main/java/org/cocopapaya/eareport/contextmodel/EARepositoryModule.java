@@ -1,6 +1,6 @@
 package org.cocopapaya.eareport.contextmodel;
 
-import org.cocopapaya.eareport.eaapi.EARepositoryFactory;
+import org.cocopapaya.eareport.eaapi_ext.EARepositoryFactory;
 import org.sparx.Repository;
 
 import com.google.inject.AbstractModule;

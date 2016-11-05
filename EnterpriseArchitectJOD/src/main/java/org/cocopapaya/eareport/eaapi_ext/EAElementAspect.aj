@@ -1,4 +1,4 @@
-package org.cocopapaya.eareport.eaapi;
+package org.cocopapaya.eareport.eaapi_ext;
 
 import org.sparx.Element;
 import org.sparx.Repository;
