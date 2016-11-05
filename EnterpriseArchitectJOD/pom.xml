@@ -120,7 +120,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>org.cocopapaya.eareport.cmd.EaDocShell</mainClass>
+							<mainClass>org.iisiplusone.eareport.main_runner.EaDocShell</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
