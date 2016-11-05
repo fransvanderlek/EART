@@ -5,47 +5,46 @@ import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.OutputFile
 import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.RootPackage;
 import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.TemplateFile;
 
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import org.cocopapaya.eareport.eaapi.EARepositoryFactory;
-import org.cocopapaya.eareport.generator.EaDocumentGenerator;
+import org.cocopapaya.eareport.contextmodel.EARepositoryModule;
+import org.cocopapaya.eareport.generator.EADocumentGeneratorModule;
+import org.cocopapaya.eareport.generator.IDocumentGenerator;
 
-import freemarker.ext.beans.BeansWrapper;
-import net.sf.jooreports.templates.DocumentTemplate;
-import net.sf.jooreports.templates.DocumentTemplateFactory;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class EaDocShell {
-	
+
 	private static final String DEFAULT_PROPERTIES_FILENAME = "eajod.properties";
-	static EaDocumentGenerator factory;
 
 	public static void main(String[] args) throws Exception {
-		
-		String propFileName = DEFAULT_PROPERTIES_FILENAME;
 
-		if( args.length > 0){
-			propFileName = args[0];
-			System.out.println("Using properties file "+propFileName);
-		}
-		
-		EaReportProperties properties = new EaReportProperties();
-		properties.load(new FileInputStream(propFileName));
-		
-		factory = new EaDocumentGenerator();
-		
-		DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
-		BeansWrapper objectWrapper = (BeansWrapper) documentTemplateFactory.getFreemarkerConfiguration().getObjectWrapper();
-		objectWrapper.setExposeFields(true);
-		DocumentTemplate template = documentTemplateFactory.getTemplate(new File(properties.get(TemplateFile)));
+		EaReportProperties properties = cmdLineProperties(args);
 
-		factory.setDocumentTemplate(template);
-		factory.setInitialPackage(properties.get(RootPackage));
-		factory.setOutputFileName(properties.get(OutputFile));
-		EARepositoryFactory.registerEapFile(properties.get(EapFile));
-		factory.setRepository(EARepositoryFactory.getInstance().getRepository());
-			
-		factory.createDocument();
+		Injector injector = Guice.createInjector(new EADocumentGeneratorModule(),
+				new EARepositoryModule(properties.get(EapFile), properties.get(RootPackage)));
+
+		IDocumentGenerator docgen = injector.getInstance(IDocumentGenerator.class);
+
+		docgen.generate(new FileInputStream(properties.get(TemplateFile)),
+				new FileOutputStream(properties.get(OutputFile)));
+
 	}
 
+	private static EaReportProperties cmdLineProperties(String[] args) throws IOException, FileNotFoundException {
+		String propFileName = DEFAULT_PROPERTIES_FILENAME;
+
+		if (args.length > 0) {
+			propFileName = args[0];
+			System.out.println("Using properties file " + propFileName);
+		}
+
+		EaReportProperties properties = new EaReportProperties();
+		properties.load(new FileInputStream(propFileName));
+		return properties;
+	}
 }

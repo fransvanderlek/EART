@@ -1,9 +1,11 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.eaapi_adapter;
 
 import java.util.List;
 import java.util.Map;
 
 import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
+import org.cocopapaya.eareport.testsupport.TestClass;
+import org.cocopapaya.eareport.testsupport.TestDelegate;
 import org.junit.Before;
 import org.junit.Test;
 

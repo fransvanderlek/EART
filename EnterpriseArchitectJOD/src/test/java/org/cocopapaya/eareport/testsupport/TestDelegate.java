@@ -1,4 +1,4 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.testsupport;
 
 public class TestDelegate {
 	

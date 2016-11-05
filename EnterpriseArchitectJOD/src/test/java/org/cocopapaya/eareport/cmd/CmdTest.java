@@ -1,11 +1,13 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.cmd;
+
+import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.EapFile;
+import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.OutputFile;
+import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.TemplateFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
-import static org.cocopapaya.eareport.cmd.EaReportProperties.PropName.*;
 
 import org.cocopapaya.eareport.cmd.EaDocShell;
 import org.cocopapaya.eareport.cmd.EaReportProperties;
@@ -14,7 +16,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EAReportE2ETest {
+public class CmdTest {
 	
 	File propertiesFile;
 	EaReportProperties properties;
@@ -29,7 +31,6 @@ public class EAReportE2ETest {
 		for (PropName filePropName : new PropName[] { EapFile, TemplateFile, OutputFile }) {
 			String correctedPath = propertiesFile.getParentFile().getAbsolutePath() + File.separatorChar
 					+ properties.get(filePropName);
-			System.out.println("Setting "+filePropName+": "+correctedPath);
 			properties.set(filePropName, correctedPath);
 		}
 		properties.store(new FileOutputStream(propertiesFile), "Modified for testing.");
@@ -42,6 +43,8 @@ public class EAReportE2ETest {
 		File createdFile = new File(properties.get(OutputFile));
 
 		Assert.assertTrue("File "+createdFile.getAbsolutePath()+"not found", createdFile.exists());
+		
+		//TODO assert that a proper odt file was created (no load errors)
 	}
 
 }

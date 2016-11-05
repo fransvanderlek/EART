@@ -1,5 +1,7 @@
-package org.cocopapaya.eajod;
+package org.cocopapaya.eareport.generator;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -7,48 +9,67 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.cocopapaya.eareport.contextmodel.EARepositoryModule;
+import org.cocopapaya.eareport.contextmodel.IContextRepository;
 import org.cocopapaya.eareport.eaapi_adapter.LazyMapAdapter;
+import org.cocopapaya.eareport.generator.EADocumentGeneratorModule;
+import org.cocopapaya.eareport.generator.IDocumentGenerator;
+import org.cocopapaya.eareport.testsupport.TestClass;
+import org.cocopapaya.eareport.testsupport.TestDelegate;
 import org.junit.Before;
 import org.junit.Test;
 import org.odftoolkit.simple.Document;
 import org.odftoolkit.simple.table.Table;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Provides;
+
 import junit.framework.Assert;
 import net.sf.jooreports.templates.DocumentTemplate;
 import net.sf.jooreports.templates.DocumentTemplateFactory;
 
-public class ReflectionMapDocumentGenerationTest {
+public class MockContextDocumentGenerationTest {
 
 	private Document generatedDocument;
-	
+
 	TestClass example = new TestClass();
 
 	LazyMapAdapter adapter = new LazyMapAdapter(example);
 
-
 	@Before
 	public void setupBeforeTests() throws Exception {
 
-		DocumentTemplateFactory documentTemplateFactory = new DocumentTemplateFactory();
+		Injector injector = Guice.createInjector(new EADocumentGeneratorModule(), new AbstractModule() {
 
+			@Override
+			protected void configure() {
+			}
 
-		File theFile = new File(this.getClass().getResource("/reflection-map-adapter-test2.odt").getPath());
+			@Provides
+			IContextRepository provideContextRepository() {
+				return new IContextRepository() {
 
-		DocumentTemplate template = documentTemplateFactory.getTemplate(theFile);
+					@Override
+					public Map<String, Object> getContext() {
+						Map<String, Object> context = new HashMap<>();
+						context.put("root", adapter);
+						return context;
+					}
+				};
+			}
+		});
 
-		String absolutePath = theFile.getAbsolutePath();
-		String pathToFile = absolutePath.substring(0, absolutePath.lastIndexOf(File.separator));
-		File outputFile = new File(pathToFile + File.separator + "reflection-map-adapter-test-out.odt");
-		
-		
-		Map <String, Object> context = new HashMap<>();
-		context.put("root", adapter);
-		template.createDocument(context, new FileOutputStream(outputFile.getAbsolutePath()));		
+		IDocumentGenerator docgen = injector.getInstance(IDocumentGenerator.class);
 
-		generatedDocument = Document.loadDocument(outputFile);
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		docgen.generate(this.getClass().getResource("/mockcontext-document-generation.odt").openStream(), out);
+
+		generatedDocument = Document.loadDocument(new ByteArrayInputStream(out.toByteArray()));
 
 	}
-
 
 	/**
 	 * public fields are not exposed by default by freemarker
@@ -57,7 +78,6 @@ public class ReflectionMapDocumentGenerationTest {
 	 */
 	@Test
 	public void testOutputSimpleProperties() throws Exception {
-
 
 		Table table = generatedDocument.getTableList().get(0);
 
@@ -72,23 +92,23 @@ public class ReflectionMapDocumentGenerationTest {
 		}
 
 	}
-	
+
 	@Test
 	public void testList() throws Exception {
-		
+
 		Table table = generatedDocument.getTableList().get(1);
-		
+
 		Assert.assertNotNull(table);
-		
+
 		List<String[]> rows = new ArrayList<>();
-		for( TestDelegate child : example.getChildren()){
-			rows.add( new String[]{ child.getFoo()} );
+		for (TestDelegate child : example.getChildren()) {
+			rows.add(new String[] { child.getFoo() });
 		}
 
 		String[][] expectedTable = new String[rows.size()][1];
-		
+
 		Assert.assertEquals("Table row size error:", rows.size(), table.getRowCount());
-		
+
 		for (int i = 0; i < rows.size(); i++) {
 			for (int k = 0; k < rows.get(0).length; k++) {
 				Assert.assertEquals("Table value mismatch at row=" + (i) + ", column=" + k, rows.get(i)[k],
@@ -96,7 +116,7 @@ public class ReflectionMapDocumentGenerationTest {
 
 			}
 		}
-	
+
 	}
 
 }

@@ -1,7 +1,5 @@
-package org.cocopapaya.eareport.generator;
+package org.cocopapaya.eareport.contextmodel;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,41 +11,25 @@ import org.sparx.Diagram;
 import org.sparx.Package;
 import org.sparx.Repository;
 
-import net.sf.jooreports.templates.DocumentTemplate;
-import net.sf.jooreports.templates.DocumentTemplateException;
-
-public class EaDocumentGenerator {
-
-	private Repository repository;
-	private DocumentTemplate template;
+public class EARepositoryContext implements IContextRepository {
+	
 	private String initialPackage;
-	private String outputFileName;
-	private Map<String,Object> injectedContext = new HashMap<>();
+	private Repository repository;
 	
-	
-	
-	public void setRepository(Repository repository) {
-		this.repository = repository;
-	}
-
-
 	public void setInitialPackage(String initialPackage) {
 		this.initialPackage = initialPackage;
 	}
-
-
-	public void setOutputFileName(String outputFileName) {
-		this.outputFileName = outputFileName;
+	
+	public void setRepository(Repository repository){
+		this.repository = repository;
 	}
-
-	public void setInjectedContext(Map<String, Object> injectedContext) {
-		this.injectedContext = injectedContext;
-	}
-
-	public void createDocument() throws IOException, DocumentTemplateException {
-
-		Package target = getByPath(repository.GetModels(), this.initialPackage);
+	
+	@Override
+	public Map<String, Object> getContext() {
+		
 		Map <String, Object> context = new HashMap<>();
+		
+		Package target = getByPath(repository.GetModels(), this.initialPackage);
 		context.put("rootPackage", new LazyMapAdapter(target));
 		
 		//TODO: add the repository itself to this context, to be available from the templates
@@ -55,10 +37,8 @@ public class EaDocumentGenerator {
 			System.out.println("Registering diagram '"+diagram.GetName()+"' in template context.");
 			context.put(diagram.GetName(), new EARepositoryImageSource(repository, diagram.GetDiagramGUID()));
 		}
-		context.putAll(injectedContext);
 		
-		System.out.println("Creating document "+this.outputFileName);
-		this.template.createDocument(context, new FileOutputStream(outputFileName));
+		return context;
 	}
 	
 	private List<Diagram> yieldDiagrams(Package input){
@@ -108,10 +88,6 @@ public class EaDocumentGenerator {
 		System.out.println("Failed to find '"+part+"', could only resolve up till "+foundPath);
 
 		return null;
-	}
-
-	public void setDocumentTemplate(DocumentTemplate template) {
-		this.template = template;
 	}
 
 }
