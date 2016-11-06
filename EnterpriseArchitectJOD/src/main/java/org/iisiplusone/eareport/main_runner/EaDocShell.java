@@ -13,12 +13,16 @@ import java.io.IOException;
 import org.iisiplusone.eareport.contextmodel.EARepositoryModule;
 import org.iisiplusone.eareport.generator.EADocumentGeneratorModule;
 import org.iisiplusone.eareport.generator.IDocumentGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 public class EaDocShell {
 
+	private static final Logger logger = LoggerFactory.getLogger(EaDocShell.class);
+	
 	private static final String DEFAULT_PROPERTIES_FILENAME = "eajod.properties";
 
 	public static void main(String[] args) throws Exception {
@@ -40,7 +44,7 @@ public class EaDocShell {
 
 		if (args.length > 0) {
 			propFileName = args[0];
-			System.out.println("Using properties file " + propFileName);
+			logger.info("Using properties file " + propFileName);
 		}
 
 		EaReportProperties properties = new EaReportProperties();

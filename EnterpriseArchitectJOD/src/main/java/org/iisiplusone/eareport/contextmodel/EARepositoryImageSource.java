@@ -12,11 +12,15 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sparx.Repository;
 
 import net.sf.jooreports.templates.image.AbstractInputStreamImageSource;
 
 public class EARepositoryImageSource extends AbstractInputStreamImageSource {
+
+	private static final Logger logger = LoggerFactory.getLogger(EARepositoryImageSource.class);
 
 	private Repository eaRepository;
 	private String imageGUID;
@@ -63,10 +67,10 @@ public class EARepositoryImageSource extends AbstractInputStreamImageSource {
 		
 		try {
 			Files.delete(p);
-			System.out.println("Deleted "+file.getName());
+			logger.info("Deleted "+file.getName());
 			
 		} catch (IOException e) {
-			System.out.println("Deletion of "+file.getName()+" failed --> "+e.getMessage());
+			logger.error("Deletion of "+file.getName()+" failed --> "+e.getMessage());
 			
 		}
 	}

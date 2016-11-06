@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.iisiplusone.eareport.eaapi_adapter.ObjectWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sparx.Collection;
 import org.sparx.Diagram;
 import org.sparx.Package;
 import org.sparx.Repository;
 
 public class EAContextRepository implements IContextRepository {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EAContextRepository.class);
 	
 	private String initialPackage;
 	private Repository repository;
@@ -39,7 +43,7 @@ public class EAContextRepository implements IContextRepository {
 		
 		//TODO: add the repository itself to this context, to be available from the templates
 		for(Diagram diagram : yieldDiagrams(target)){
-			System.out.println("Registering diagram '"+diagram.GetName()+"' in template context.");
+			logger.info("Registering diagram '"+diagram.GetName()+"' in template context.");
 			context.put(diagram.GetName(), imageSourceRepository.getImageSourceForDiagram(diagram));
 		}
 		
@@ -62,7 +66,7 @@ public class EAContextRepository implements IContextRepository {
 	
 	private Package getByPath(Collection<Package> packs, String path){
 		
-		System.out.println("Opening package : "+path);
+		logger.info("Opening package : "+path);
 		String[] parts = path.split("/");
 		String foundPath = "";
 		String part="";
@@ -90,7 +94,7 @@ public class EAContextRepository implements IContextRepository {
 			}
 		}
 		
-		System.out.println("Failed to find '"+part+"', could only resolve up till "+foundPath);
+		logger.error("Failed to find '"+part+"', could only resolve up till "+foundPath);
 
 		return null;
 	}

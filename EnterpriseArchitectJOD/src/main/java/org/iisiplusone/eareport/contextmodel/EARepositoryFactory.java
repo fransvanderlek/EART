@@ -3,10 +3,13 @@ package org.iisiplusone.eareport.contextmodel;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sparx.Repository;
 
 public class EARepositoryFactory {
 
+	private static final Logger logger = LoggerFactory.getLogger(EARepositoryFactory.class);
 	
 	public static EARepositoryFactory INSTANCE;
 	
@@ -39,7 +42,7 @@ public class EARepositoryFactory {
 	
 	private void openRepository(){
 		
-		System.out.println("Opening eap file: "+this.eapFileLocation);
+		logger.info("Opening eap file: "+this.eapFileLocation);
 		
 		repo = new Repository();	
 		repo.OpenFile(this.eapFileLocation);
@@ -49,7 +52,7 @@ public class EARepositoryFactory {
 			
 			@Override
 			public void run() {
-				System.out.println("Requesting repository to close file.");
+				logger.info("Requesting repository to close file.");
 				repo.CloseFile();
 				repo.Exit();
 			}
