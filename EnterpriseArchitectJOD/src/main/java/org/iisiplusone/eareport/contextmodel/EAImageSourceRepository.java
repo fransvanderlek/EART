@@ -1,7 +1,5 @@
 package org.iisiplusone.eareport.contextmodel;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
