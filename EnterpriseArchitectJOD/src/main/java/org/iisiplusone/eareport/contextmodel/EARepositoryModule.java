@@ -1,6 +1,5 @@
 package org.iisiplusone.eareport.contextmodel;
 
-import org.iisiplusone.eareport.eaapi_ext.EARepositoryFactory;
 import org.sparx.Repository;
 
 import com.google.inject.AbstractModule;
@@ -27,7 +26,7 @@ public class EARepositoryModule extends AbstractModule {
 
 		EARepositoryFactory.registerEapFile(this.eapFileLocation);
 		Repository repository = EARepositoryFactory.getInstance().getRepository();
-		EARepositoryContext ctx = new EARepositoryContext();
+		EAContextRepository ctx = new EAContextRepository();
 		ctx.setRepository(repository);
 		ctx.setInitialPackage(this.initialPackage);
 

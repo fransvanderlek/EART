@@ -1,5 +1,6 @@
 package org.iisiplusone.eareport.eaapi_ext;
 
+import org.iisiplusone.eareport.contextmodel.EARepositoryFactory;
 import org.sparx.Connector;
 import org.sparx.DiagramLink;
 import org.sparx.Repository;

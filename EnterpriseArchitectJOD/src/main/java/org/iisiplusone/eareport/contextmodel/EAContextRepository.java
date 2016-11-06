@@ -11,10 +11,11 @@ import org.sparx.Diagram;
 import org.sparx.Package;
 import org.sparx.Repository;
 
-public class EARepositoryContext implements IContextRepository {
+public class EAContextRepository implements IContextRepository {
 	
 	private String initialPackage;
 	private Repository repository;
+	private EAImageSourceRepository imageSourceRepository = new EAImageSourceRepository();
 	
 	public void setInitialPackage(String initialPackage) {
 		this.initialPackage = initialPackage;
@@ -35,7 +36,7 @@ public class EARepositoryContext implements IContextRepository {
 		//TODO: add the repository itself to this context, to be available from the templates
 		for(Diagram diagram : yieldDiagrams(target)){
 			System.out.println("Registering diagram '"+diagram.GetName()+"' in template context.");
-			context.put(diagram.GetName(), new EARepositoryImageSource(repository, diagram.GetDiagramGUID()));
+			context.put(diagram.GetName(), imageSourceRepository.getImageSourceForDiagram(diagram));
 		}
 		
 		return context;
