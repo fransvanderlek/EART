@@ -3,8 +3,12 @@ package org.iisiplusone.eareport.contextmodel;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
@@ -28,54 +32,42 @@ public class EARepositoryImageSource extends AbstractInputStreamImageSource {
 	@Override
 	protected InputStream getInputStream() throws IOException {
 
-		if( this.contents==null){
-			final File targetFile = new File(System.getProperty("java.io.tmpdir") +File.pathSeparator+UUID.randomUUID()+"_diagram_" + imageGUID + ".png");
-			this.eaRepository.GetProjectInterface().PutDiagramImageToFile(this.imageGUID, targetFile.getAbsolutePath(), 1);
+		if( this.contents==null){			
+			final File targetFile = writeDiagramFile(this.imageGUID);
+			this.contents = loadByteContentsFromFile(targetFile);
+			cleanUpFile(targetFile);
 			
-			this.contents = IOUtils.toByteArray(new FileInputStream(targetFile));			
-			ShutdownHandler.registerFile(targetFile);					
 		}
-
-
-//		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-//
-//			/*
-//			 * This method will attempt to delete the temporary image file
-//			 * created by enterprise architect. Due to file locking this might
-//			 * not succeed immediately, so we retry 3 times before giving up.
-//			 * 
-//			 * (non-Javadoc)
-//			 * 
-//			 * @see java.lang.Runnable#run()
-//			 */
-//			@Override
-//			public void run() {
-//				boolean deleteDone = false;
-//				int maxRetries = 3;
-//				int currentTry = 1;
-//				long retryIntervalMs = 500;
-//
-//				while (!deleteDone && currentTry <= maxRetries) {
-//
-//					try {
-//						// first we try without delay, sleep for 0 millis
-//						Thread.sleep((currentTry - 1) * retryIntervalMs);
-//
-//					} catch (InterruptedException e) {
-//						// restore interrupted state
-//						// afterwards we continue to retry file deletion
-//						Thread.currentThread().interrupt();
-//					}
-//					deleteDone = targetFile.delete();
-//					currentTry++;
-//				}
-//
-//				System.out.println("Deletion of file " + targetFile.getName() + " completed with success=" + deleteDone
-//						+ " after " + currentTry + " attempt(s)");
-//
-//			}
-//		}));
-
 		return new ByteArrayInputStream(this.contents);
+	}
+	
+	private File writeDiagramFile( String diagramGuid){
+		final File diagramFile = new File(UUID.randomUUID()+"_diagram_" + imageGUID + ".png");
+		this.eaRepository.GetProjectInterface().PutDiagramImageToFile(this.imageGUID, diagramFile.getAbsolutePath(), 1);
+		
+		return diagramFile;
+	}
+	
+	private byte[] loadByteContentsFromFile(File file) throws IOException{
+		FileInputStream fis = new FileInputStream(file);
+		
+		byte[] theContents = IOUtils.toByteArray(fis);	
+		fis.close();
+		
+		return theContents;
+	}
+	
+	private void cleanUpFile(File file){
+		
+		Path p = Paths.get(file.getAbsolutePath()); 
+		
+		try {
+			Files.delete(p);
+			System.out.println("Deleted "+file.getName());
+			
+		} catch (IOException e) {
+			System.out.println("Deletion of "+file.getName()+" failed --> "+e.getMessage());
+			
+		}
 	}
 }

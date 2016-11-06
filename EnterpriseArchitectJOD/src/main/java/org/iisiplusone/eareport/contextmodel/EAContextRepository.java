@@ -15,8 +15,12 @@ public class EAContextRepository implements IContextRepository {
 	
 	private String initialPackage;
 	private Repository repository;
-	private EAImageSourceRepository imageSourceRepository = new EAImageSourceRepository();
+	private EAImageSourceRepository imageSourceRepository;
 	
+	public void setImageSourceRepository(EAImageSourceRepository imageSourceRepository) {
+		this.imageSourceRepository = imageSourceRepository;
+	}
+
 	public void setInitialPackage(String initialPackage) {
 		this.initialPackage = initialPackage;
 	}

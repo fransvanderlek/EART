@@ -44,17 +44,16 @@ public class EARepositoryFactory {
 		repo = new Repository();	
 		repo.OpenFile(this.eapFileLocation);
 		
-		ShutdownHandler.registerRepository(repo);
 				
-//		Runtime.getRuntime().addShutdownHook(new Thread( new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				System.out.println("Requesting repository to close file.");
-//				repo.CloseFile();
-//				repo.Exit();
-//			}
-//		}));
+		Runtime.getRuntime().addShutdownHook(new Thread( new Runnable() {
+			
+			@Override
+			public void run() {
+				System.out.println("Requesting repository to close file.");
+				repo.CloseFile();
+				repo.Exit();
+			}
+		}));
 	}
 	
 	public Repository getRepository(){
