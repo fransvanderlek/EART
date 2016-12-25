@@ -5,8 +5,6 @@ import org.iisiplusone.eareport.contextmodel.IContextRepository;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import net.sf.jooreports.templates.DocumentTemplateFactory;
-
 public class EADocumentGeneratorModule extends AbstractModule {
 	
 	@Override
@@ -15,10 +13,8 @@ public class EADocumentGeneratorModule extends AbstractModule {
 	
 	@Provides
 	public IDocumentGenerator provideGenerator(IContextRepository contextRepository){
-		DocGen docgen = new DocGen();
+		XDocReportGenerator docgen = new XDocReportGenerator();
 		docgen.setContextRepository(contextRepository);
-		docgen.setDocumentTemplateFactory(new DocumentTemplateFactory());
-		
 		return docgen;
 	}
 
