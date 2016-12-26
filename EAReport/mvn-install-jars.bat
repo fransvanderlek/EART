@@ -1,0 +1,1 @@
+mvn install:install-file -DgroupId=net.cmp4oaw -DartifactId=ea_com_interface -Dversion=2.1-SNAPSHOT -Dpackaging=jar -Dfile=ea_uml2exporter/ea_com_interface-2.1-SNAPSHOT.jar

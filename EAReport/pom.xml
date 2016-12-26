@@ -1,0 +1,259 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>EnterpriseArchitectReporter</groupId>
+	<artifactId>EnterpriseArchitectReporter</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>eareport</name>
+
+	<properties>
+		<aspectj.version>1.8.9</aspectj.version>
+		<java.source.version>1.8</java.source.version>
+		<java.target.version>1.8</java.target.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<deploy-directory>${basedir}/deploy</deploy-directory>
+		<ssjavacom.path>"C:\Program Files (x86)\Sparx Systems\EA\Java API"</ssjavacom.path>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.odftoolkit</groupId>
+			<artifactId>simple-odf</artifactId>
+			<version>0.8.1-incubating</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>xdocreport</artifactId>
+			<version>1.0.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.20</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.sparx</groupId>
+			<artifactId>eaapi</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+	</dependencies>
+
+
+
+	<build>
+		<!-- <sourceDirectory>src</sourceDirectory> -->
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>copy-build</id>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<copy todir="${deploy-directory}">
+									<fileset dir="${project.build.directory}">
+										<include name="*.jar" />
+									</fileset>
+								</copy>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-beta-1</version>
+				<configuration>
+
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<mainClass>org.iisiplusone.eareport.main_runner.EaDocShell</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<mode>development</mode>
+						</manifestEntries>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>packageWithDependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Djava.library.path=${ssjavacom.path}</argLine>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>test-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjrt</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjtools</artifactId>
+						<version>${aspectj.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<sources>
+						<source>
+							<basedir>src/main/java</basedir>
+							<includes>
+								<include>**/*.aj</include>
+								<include>**/*.java</include>
+							</includes>
+						</source>
+					</sources>
+					<complianceLevel>${java.source.version}</complianceLevel>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+					<forceAjcCompile>true</forceAjcCompile>
+					<weaveDependencies>
+						<weaveDependency>
+							<groupId>org.sparx</groupId>
+							<artifactId>eaapi</artifactId>
+						</weaveDependency>
+					</weaveDependencies>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<source>${java.source.version}</source>
+					<target>${java.target.version}</target>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-testCompile</id>
+						<phase>none</phase>
+					</execution>
+					<execution>
+						<id>default-compile</id>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<nonFilteredFileExtensions>
+								<nonFilteredFileExtension>odt</nonFilteredFileExtension>
+							</nonFilteredFileExtensions>
+
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
