@@ -18,12 +18,17 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 import fr.opensagres.xdocreport.template.freemarker.FreemarkerTemplateEngine;
 import freemarker.template.Configuration;
 
-public class XDocReportGenerator implements IDocumentGenerator {
+public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
 	
-	private static final Logger logger = LoggerFactory.getLogger(XDocReportGenerator.class);
+	private static final Logger logger = LoggerFactory.getLogger(XDocReportFreemarkerGenerator.class);
 	
 	private IContextRepository contextRepository;
+	private FreemarkerTemplateEngine freemarkerTemplateEngine;
 
+
+	public void setFreemarkerTemplateEngine(FreemarkerTemplateEngine freemarkerTemplateEngine) {
+		this.freemarkerTemplateEngine = freemarkerTemplateEngine;
+	}
 
 	public void setContextRepository(IContextRepository contextRepository) {
 		this.contextRepository = contextRepository;
@@ -46,10 +51,7 @@ public class XDocReportGenerator implements IDocumentGenerator {
 				}				
 			}
 			
-			FreemarkerTemplateEngine fmkEngine = new FreemarkerTemplateEngine();
-			fmkEngine.getFreemarkerConfiguration().setClassForTemplateLoading(XDocReportGenerator.class, "/");
-						
-			report.setTemplateEngine(fmkEngine);
+			report.setTemplateEngine(this.freemarkerTemplateEngine);
 			
 			report.process(context,result );
 			

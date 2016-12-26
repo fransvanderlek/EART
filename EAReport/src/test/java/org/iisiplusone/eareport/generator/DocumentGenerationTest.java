@@ -23,7 +23,7 @@ public class DocumentGenerationTest {
 	//@Before
 	public void setupBeforeTests() throws Exception {
 
-		String eapPath = this.getClass().getResource("/ea_jod.eap").getPath().substring(1);
+		String eapPath = this.getClass().getResource("/ea_model.eap").getPath().substring(1);
 
 		Injector injector = Guice.createInjector(new EADocumentGeneratorModule(),
 				new EARepositoryModule(eapPath, "Model/View_1/Package_1"));
