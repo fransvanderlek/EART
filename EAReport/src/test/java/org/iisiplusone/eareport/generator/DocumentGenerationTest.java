@@ -20,7 +20,7 @@ public class DocumentGenerationTest {
 
 	private Document generatedDocument;
 
-	@Before
+	//@Before
 	public void setupBeforeTests() throws Exception {
 
 		String eapPath = this.getClass().getResource("/ea_jod.eap").getPath().substring(1);
@@ -42,7 +42,7 @@ public class DocumentGenerationTest {
 	 * 
 	 * @throws Exception
 	 */
-	@Test
+	//@Test
 	public void testExposePublicFields() throws Exception {
 
 		Table table = generatedDocument.getTableList().get(0);
@@ -60,7 +60,7 @@ public class DocumentGenerationTest {
 
 	}
 
-	@Test
+	//@Test
 	public void testTaggedValues() throws Exception {
 
 		Table table = generatedDocument.getTableList().get(1);
