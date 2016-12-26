@@ -1,4 +1,4 @@
-package org.iisiplusone.eareport.generator;
+package org.iisiplusone.eareport.main_runner;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
