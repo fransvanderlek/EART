@@ -7,3 +7,4 @@ mvn clean install and run applicatin a couple of times.
 - since EA is 32-bit it cannot be loaded in a 64-bit process, therefore use 32 bit JVM
 - example command: "C:\Program Files (x86)\Java\jdk1.8.0_77\bin\java.exe" -Djava.library.path="C:\Program Files (x86)\Sparx Systems\EA\Java API" -jar EnterpriseArchitectJOD-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 - must specify a properties file (eajod.properties by default) 
+- changed repo name
