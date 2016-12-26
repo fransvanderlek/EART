@@ -23,7 +23,7 @@ public class CmdTest {
 
 	@Before
 	public void setup() throws IOException {
-		propertiesFile = new File(this.getClass().getResource("/eajod.properties").getPath());
+		propertiesFile = new File(this.getClass().getResource("/eareport.properties").getPath());
 
 		properties = new EaReportProperties();
 		properties.load(new FileInputStream(propertiesFile));

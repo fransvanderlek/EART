@@ -109,11 +109,7 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-								<copy todir="${deploy-directory}">
-									<fileset dir="${project.build.directory}">
-										<include name="*.jar" />
-									</fileset>
-								</copy>
+						    <copy file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar" tofile="${deploy-directory}/${project.artifactId}.jar" />
 							</tasks>
 						</configuration>
 						<goals>

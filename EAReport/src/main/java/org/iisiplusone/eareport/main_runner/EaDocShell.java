@@ -23,7 +23,7 @@ public class EaDocShell {
 
 	private static final Logger logger = LoggerFactory.getLogger(EaDocShell.class);
 	
-	private static final String DEFAULT_PROPERTIES_FILENAME = "eajod.properties";
+	private static final String DEFAULT_PROPERTIES_FILENAME = "eareport.properties";
 
 	public static void main(String[] args) throws Exception {
 
