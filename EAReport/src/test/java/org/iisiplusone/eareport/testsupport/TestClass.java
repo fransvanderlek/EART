@@ -8,6 +8,10 @@ import java.util.Map;
 public class TestClass {
 	
 	public String MyName = "test";
+	
+	public boolean isGood(){
+		return true;
+	}
 
 	public String getTitle() {
 		return "hello";

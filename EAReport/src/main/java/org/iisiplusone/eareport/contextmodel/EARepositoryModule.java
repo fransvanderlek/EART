@@ -29,20 +29,14 @@ public class EARepositoryModule extends AbstractModule {
 		return repository;
 	}
 	
-	@Provides
-	protected EAImageSourceRepository provideImageSourceRepository(Repository repository){
-		EAImageSourceRepository imageSourceRepository = new EAImageSourceRepository();
-		imageSourceRepository.setRepository(repository);
-		return imageSourceRepository;
-	}
+	
 
 	@Provides
-	public IContextRepository provideContextRepository(EAImageSourceRepository imageSourceRepository, Repository repository) {
+	public IModelRepository provideContextRepository( Repository repository) {
 
 		EAContextRepository ctx = new EAContextRepository();
 		ctx.setRepository(repository);
 		ctx.setInitialPackage(this.initialPackage);
-		ctx.setImageSourceRepository(imageSourceRepository);
 
 		return ctx;
 	}

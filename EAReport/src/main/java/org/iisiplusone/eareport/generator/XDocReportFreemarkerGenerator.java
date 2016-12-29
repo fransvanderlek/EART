@@ -2,10 +2,14 @@ package org.iisiplusone.eareport.generator;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.iisiplusone.eareport.contextmodel.EADiagramImage;
+import org.iisiplusone.eareport.contextmodel.EAProject;
 import org.iisiplusone.eareport.contextmodel.EARepositoryFactory;
-import org.iisiplusone.eareport.contextmodel.IContextRepository;
+import org.iisiplusone.eareport.contextmodel.IModelRepository;
+import org.iisiplusone.eareport.eaapi_adapter.ObjectWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +26,7 @@ public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
 	
 	private static final Logger logger = LoggerFactory.getLogger(XDocReportFreemarkerGenerator.class);
 	
-	private IContextRepository contextRepository;
+	private IModelRepository contextRepository;
 	private FreemarkerTemplateEngine freemarkerTemplateEngine;
 
 
@@ -30,7 +34,7 @@ public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
 		this.freemarkerTemplateEngine = freemarkerTemplateEngine;
 	}
 
-	public void setContextRepository(IContextRepository contextRepository) {
+	public void setContextRepository(IModelRepository contextRepository) {
 		this.contextRepository = contextRepository;
 	}
 
@@ -40,20 +44,23 @@ public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
 		try {
 			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
 					template, TemplateEngineKind.Freemarker);
-			
-			Map<String,Object> context = this.contextRepository.getContext();	
-			
-			for(java.util.Map.Entry<String, Object> entry : context.entrySet()){
-				if( entry.getValue() instanceof IImageProvider){
-					FieldsMetadata metadata = new FieldsMetadata();
-		            metadata.addFieldAsImage(entry.getKey());
-		            report.setFieldsMetadata(metadata);
-				}				
-			}
-			
 			report.setTemplateEngine(this.freemarkerTemplateEngine);
 			
+			Map<String,Object> context = new HashMap<>();			
+			EAProject model = this.contextRepository.getEAProject();
+			
+			context.put("rootPackage", model.getRootContext());
+			
+			for(EADiagramImage diagramImage : model.getDiagraImages()){
+				FieldsMetadata metadata = new FieldsMetadata();
+		        metadata.addFieldAsImage(diagramImage.getDiagramName());
+		        report.setFieldsMetadata(metadata);
+		        context.put(diagramImage.getDiagramName(), new EADiagramImageProvider( diagramImage ));
+			}
+						
+			logger.info("Generating report.");
 			report.process(context,result );
+			logger.info("Done generating report.");
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);

@@ -23,6 +23,12 @@ public class MapAdapterTest {
 
 		Assert.assertEquals("Failure when accessing [title]", example.getTitle(), adapter.get("title").toString());
 	}
+	
+	@Test
+	public void testBooleanProperty() {
+
+		Assert.assertEquals("Failure when accessing [good]", example.isGood(), adapter.get("good"));
+	}
 
 	@Test
 	public void testUppercaseGetter() {

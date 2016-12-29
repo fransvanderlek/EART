@@ -5,9 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ObjectWrapper {
 
+	private static final Logger logger = LoggerFactory.getLogger(ObjectWrapper.class);
+
+	
 	@SuppressWarnings("serial")
 	public Object wrap(Object input) {
 		
@@ -15,6 +20,8 @@ public class ObjectWrapper {
 			Class<?> clasz = input.getClass();
 
 			if (ClassUtils.isPrimitiveOrWrapper(clasz) || input instanceof String || clasz.isEnum()) {
+				
+				logger.debug("Skipping wrapping for type "+clasz);
 				return input;
 
 			} else if (input instanceof Object[]) {
@@ -30,6 +37,7 @@ public class ObjectWrapper {
 				} );
 
 			} else {
+				logger.debug("Wrapping type "+clasz);
 				return MapAdapterProxy.instance(input);
 
 			}
