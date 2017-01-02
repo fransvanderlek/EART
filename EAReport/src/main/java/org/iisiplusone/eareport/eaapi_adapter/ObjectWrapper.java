@@ -8,11 +8,32 @@ import org.apache.commons.lang3.ClassUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Decides whether, and how to wrap an object.
+ * <p>
+ * The wrapping is based on type of the provied object and follows:
+ * <ul>
+ * <li> primitive types (such as <code>int</code>, <code>float</code>) an their wrapper types (<code>Integer</code>,
+ *  <code>Float</code>) etc are not wrapped
+ * <li> <code>String</code>s are not wrapped
+ * <li> <code>enum</code>s are not wrapped
+ * <li> instances of <code>Array</code> or <code>Iterable</code> are converted to <code>List</code> and their elements
+ * are wrapped if applicable
+ * <li> any other class is wrapped by <code>MapAdapterProxy</code>
+ * </ul>
+ *
+ */
 public class ObjectWrapper {
 
 	private static final Logger logger = LoggerFactory.getLogger(ObjectWrapper.class);
 
 	
+	/**
+	 * Wraps an object if applicable.
+	 * 
+	 * @param input : the object to wrap based on the object's class
+	 * @return the wrapping object or the input object if no wrapping is to be done
+	 */
 	@SuppressWarnings("serial")
 	public Object wrap(Object input) {
 		

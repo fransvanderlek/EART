@@ -11,6 +11,36 @@ import org.sparx.Diagram;
 import org.sparx.Package;
 import org.sparx.Repository;
 
+
+/**
+ * Retrieves the EA project data via Enterprise Architect's repository class. 
+ * <p>
+ * Data returned includes (see also @link {@link EAProject}): 
+ * <ul>
+ * <li> EA model objects wrapped in <code>java.util.Map</code>
+ * <li> images in the form of image provider classes
+ * </ul>
+ * 
+ * <p>
+ * An <code>initialPackage</code> string should be provided.
+ * This string takes the form <code>part-1/part-2/part-3</code>.
+ * This forms a path which will be used to search EA Model's packages. 
+ * The package found will be returned by this class and be used as the basis for searching for diagrams:
+ * only diagrams within that package will be available in the returned <code>EAProject</code> list.
+ * The nearer to the root the target package is located, the wider the search for diagrams and the longer
+ * the startup time.
+ * Note an EA project can have multiple root packages (Models in the EA project).
+ * The first part in the path must match the name of one of those model names immediately under EA project.
+ * Remaining parts must match the name of <code>Package</code>s within that model, where each successive part
+ * corresponds to a child package via <code>Package.GetPackages()</code>. 
+ * 
+ * <ul>
+ * <li>If no <code>initialPackage</code> is provided, the result is undefined.
+ * <li>If the form is not correct, the result is undefined.
+ * <li>If the path does not match an existing <code>Package</code>, the result is undefined.
+ * <li>Only one package can be selected, hence only one model on the EA project can be returned.
+ * </ul>
+ */
 public class EAContextRepository implements IModelRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(EAContextRepository.class);

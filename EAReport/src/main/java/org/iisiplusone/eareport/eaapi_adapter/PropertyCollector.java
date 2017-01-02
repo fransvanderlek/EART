@@ -8,6 +8,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Retrieves properties and property values from an object.
+ * <p>
+ * For the purposes of this class, a property is retrievable by the following logic: :
+ * <ul>
+ * <li>any parameterless public method that has a return and starts with 'get' (case insensitive)
+ * <li>any parameterless public method that has a return and starts with 'is' (case insensitive)
+ * <li>any public field
+ * <li>in case of <code>java.util.Map</code>, then the string representation of the key names are treated as 
+ * properties, with the corresponding value as the property value.
+ * </ul>
+ *  
+ * The name of the property will depend on how it is retrieved. 
+ * <p>
+ * In case of methods, the part after the
+ * prefix ('get' or 'is') is decapitalized and the result is the property name.
+ * <p>
+ * In case of fields, the field name is decapitalized and the result is the property name.
+ * <p>
+ * In case of <code>Map</code>s, the string of the key is kept unmodified as property name
+ * <p>
+ * If from this procedure the same property name is retrieved twice, the result is that the last one found
+ * is kept.
+ *
+ */
 public class PropertyCollector {
 
 	@SuppressWarnings("rawtypes")
