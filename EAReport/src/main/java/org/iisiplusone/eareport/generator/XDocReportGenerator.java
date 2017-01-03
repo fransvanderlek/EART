@@ -12,21 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
-import fr.opensagres.xdocreport.document.registry.XDocReportRegistry;
-import fr.opensagres.xdocreport.template.TemplateEngineKind;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
-import fr.opensagres.xdocreport.template.freemarker.FreemarkerTemplateEngine;
 
-public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
+public class XDocReportGenerator implements IDocumentGenerator {
 	
-	private static final Logger logger = LoggerFactory.getLogger(XDocReportFreemarkerGenerator.class);
+	private static final Logger logger = LoggerFactory.getLogger(XDocReportGenerator.class);
 	
 	private IModelRepository contextRepository;
-	private FreemarkerTemplateEngine freemarkerTemplateEngine;
-
-
-	public void setFreemarkerTemplateEngine(FreemarkerTemplateEngine freemarkerTemplateEngine) {
-		this.freemarkerTemplateEngine = freemarkerTemplateEngine;
+	private IXDocReportFactory xDocReportFactory;
+	
+	public void setxDocReportFactory(IXDocReportFactory xDocReportFactory) {
+		this.xDocReportFactory = xDocReportFactory;
 	}
 
 	public void setContextRepository(IModelRepository contextRepository) {
@@ -37,9 +33,7 @@ public class XDocReportFreemarkerGenerator implements IDocumentGenerator {
 	public void generate(InputStream template, OutputStream result) {
 		
 		try {
-			IXDocReport report = XDocReportRegistry.getRegistry().loadReport(
-					template, TemplateEngineKind.Freemarker);
-			report.setTemplateEngine(this.freemarkerTemplateEngine);
+			IXDocReport report = xDocReportFactory.getReport(template);
 			
 			Map<String,Object> context = new HashMap<>();			
 			EAProject model = this.contextRepository.getEAProject();

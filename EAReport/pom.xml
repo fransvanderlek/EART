@@ -30,6 +30,14 @@
 			</exclusions>
 		</dependency>
 
+
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.14</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -109,7 +117,9 @@
 						<phase>install</phase>
 						<configuration>
 							<tasks>
-						    <copy file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar" tofile="${deploy-directory}/${project.artifactId}.jar" />
+								<copy
+									file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar"
+									tofile="${deploy-directory}/${project.artifactId}.jar" />
 							</tasks>
 						</configuration>
 						<goals>
