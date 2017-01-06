@@ -6,33 +6,20 @@ import static org.iisiplusone.eareport.main_runner.EaReportProperties.PropName.T
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
-import org.apache.xmlbeans.impl.common.IOUtil;
-import org.iisiplusone.eareport.main_runner.EaDocShell;
-import org.iisiplusone.eareport.main_runner.EaReportProperties;
 import org.iisiplusone.eareport.main_runner.EaReportProperties.PropName;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.sparx.Project;
-import org.sparx.Repository;
-
-import fr.opensagres.xdocreport.core.io.IOUtils;
-import mockit.Invocation;
-import mockit.Mock;
-import mockit.MockUp;
 
 public class CmdTest {
 
@@ -57,37 +44,6 @@ public class CmdTest {
 	@Test
 	public void testWithDefaultPropertyFile() throws Exception {
 
-		final Map<String, byte[]> capturedImages = new HashMap<>();
-
-		new MockUp<Project>() {
-
-			@Mock
-			public boolean PutDiagramImageToFile(Invocation invocation, String diagramGuid, String pathToFile,
-					int arg3) {
-
-				// Let EA repository generate the diagram image normally
-				boolean result = invocation.proceed(diagramGuid, pathToFile, arg3);
-
-				// read the image and keep for later
-				FileInputStream fis = null;
-				try {
-					fis = new FileInputStream(pathToFile);
-					// capturedImages.put(pathToFile, IOUtils.toByteArray(fis));
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					if (fis != null) {
-						IOUtils.closeQuietly(fis);
-					}
-				}
-
-				// return whatever the result was according the EA Repository
-				// class
-				return result;
-			}
-		};
-
 		EaDocShell.main(new String[] { propertiesFile.getAbsolutePath() });
 
 		File createdFile = new File(properties.get(OutputFile));
@@ -106,6 +62,8 @@ public class CmdTest {
 						table.getRow(i + 1).getCell(k).getText().trim());
 			}
 		}
+		
+		final Map<String, byte[]> capturedImages = new HashMap<>();
 
 		capturedImages.put("Diagram_1",
 				org.apache.commons.io.IOUtils.toByteArray(CmdTest.class.getResourceAsStream("/Diagram_1.png")));
