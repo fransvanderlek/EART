@@ -18,20 +18,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.apache.odftoolkit</groupId>
-			<artifactId>simple-odf</artifactId>
-			<version>0.8.1-incubating</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>slf4j-log4j12</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-
-		<dependency>
 			<scope>test</scope>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
