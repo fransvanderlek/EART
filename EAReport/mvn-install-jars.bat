@@ -1,1 +1,1 @@
-mvn install:install-file -DgroupId=net.cmp4oaw -DartifactId=ea_com_interface -Dversion=2.1-SNAPSHOT -Dpackaging=jar -Dfile=ea_uml2exporter/ea_com_interface-2.1-SNAPSHOT.jar
+mvn install:install-file -DgroupId=org.sparx -DartifactId=eaapi -Dversion=1.0.0 -Dpackaging=jar -Dfile="C:\Program Files (x86)\Sparx Systems\EA\Java API\eaapi.jar"
