@@ -1,4 +1,0 @@
-eap-file-location: #path to the .eap file goes here
-root-package: #the package into which the template will start evaluation
-template-file: #the .odt file to use as template, e.g. template.odt
-output-file: #the name of the .odt output file, e.g. output.odt

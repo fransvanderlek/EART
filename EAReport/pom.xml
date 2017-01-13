@@ -60,6 +60,7 @@
 			<groupId>org.sparx</groupId>
 			<artifactId>eaapi</artifactId>
 			<version>1.0.0</version>
+			<scope>compile,test</scope>
 		</dependency>
 
 		<dependency>
@@ -98,8 +99,8 @@
 
 
 	<build>
-		<!-- <sourceDirectory>src</sourceDirectory> -->
 		<plugins>
+		<!-- 
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.4</version>
@@ -120,33 +121,42 @@
 					</execution>
 				</executions>
 			</plugin>
-
+ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2-beta-1</version>
-				<configuration>
-
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>org.iisiplusone.eareport.main_runner.EaDocShell</mainClass>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-							<mode>development</mode>
-						</manifestEntries>
-					</archive>
-				</configuration>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>packageWithDependencies</id>
 						<phase>package</phase>
 						<goals>
-							<goal>assembly</goal>
+							<goal>single</goal>
 						</goals>
+						<configuration>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+								<manifest>
+									<mainClass>org.iisiplusone.eareport.main_runner.EaDocShell</mainClass>
+									<addClasspath>true</addClasspath>
+								</manifest>
+								<manifestEntries>
+									<mode>development</mode>
+								</manifestEntries>
+							</archive>
+						</configuration>
+					</execution>
+					<execution>
+						<id>packageProduct</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>src/assembly/bin.xml</descriptors>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -155,7 +165,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<argLine>-Djava.library.path=${ssjavacom.path} -javaagent:${project.build.directory}/agents/aspectjweaver.jar</argLine>
+					<argLine>-Djava.library.path=${ssjavacom.path}
+						-javaagent:${project.build.directory}/agents/aspectjweaver.jar</argLine>
 				</configuration>
 			</plugin>
 
@@ -225,23 +236,18 @@
 					</execution>
 				</executions>
 			</plugin>
-
+<!-- 
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.0.1</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
-						<!-- here the phase you need -->
 						<phase>validate</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<nonFilteredFileExtensions>
-								<nonFilteredFileExtension>odt</nonFilteredFileExtension>
-							</nonFilteredFileExtensions>
-
 							<outputDirectory>${basedir}/target</outputDirectory>
 							<resources>
 								<resource>
@@ -253,7 +259,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
