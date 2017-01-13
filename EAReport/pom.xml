@@ -100,28 +100,11 @@
 
 	<build>
 		<plugins>
-		<!-- 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<id>copy-build</id>
-						<phase>install</phase>
-						<configuration>
-							<tasks>
-								<copy
-									file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar"
-									tofile="${deploy-directory}/${project.artifactId}.jar" />
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
- -->
+			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.4</version> 
+				<executions> <execution> <id>copy-build</id> <phase>install</phase> <configuration> 
+				<tasks> <copy file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar" 
+				tofile="${deploy-directory}/${project.artifactId}.jar" /> </tasks> </configuration> 
+				<goals> <goal>run</goal> </goals> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -236,30 +219,11 @@
 					</execution>
 				</executions>
 			</plugin>
-<!-- 
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/resources</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
- -->
+			<!-- <plugin> <artifactId>maven-resources-plugin</artifactId> <version>3.0.1</version> 
+				<executions> <execution> <id>copy-resources</id> <phase>validate</phase> 
+				<goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>${basedir}/target</outputDirectory> 
+				<resources> <resource> <directory>src/main/resources</directory> <filtering>true</filtering> 
+				</resource> </resources> </configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -276,7 +240,7 @@
 								<artifactItem>
 									<groupId>org.aspectj</groupId>
 									<artifactId>aspectjweaver</artifactId>
-									<version>1.6.2</version>
+									<version>${aspectj.version}</version>
 									<outputDirectory>${project.build.directory}/agents</outputDirectory>
 									<destFileName>aspectjweaver.jar</destFileName>
 								</artifactItem>
