@@ -87,16 +87,12 @@
 			<version>3.4</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>4.0</version>
 		</dependency>
-
 	</dependencies>
-
-
 
 	<build>
 		<resources>
@@ -106,11 +102,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.4</version> 
-				<executions> <execution> <id>copy-build</id> <phase>install</phase> <configuration> 
-				<tasks> <copy file="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar" 
-				tofile="${deploy-directory}/${project.artifactId}.jar" /> </tasks> </configuration> 
-				<goals> <goal>run</goal> </goals> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -198,12 +189,6 @@
 					<target>${java.target.version}</target>
 					<forceAjcCompile>true</forceAjcCompile>
 					<outxml>true</outxml>
-					<!-- <weaveDependencies> -->
-					<!-- <weaveDependency> -->
-					<!-- <groupId>org.sparx</groupId> -->
-					<!-- <artifactId>eaapi</artifactId> -->
-					<!-- </weaveDependency> -->
-					<!-- </weaveDependencies> -->
 				</configuration>
 			</plugin>
 
@@ -225,11 +210,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <artifactId>maven-resources-plugin</artifactId> <version>3.0.1</version> 
-				<executions> <execution> <id>copy-resources</id> <phase>validate</phase> 
-				<goals> <goal>copy-resources</goal> </goals> <configuration> <outputDirectory>${basedir}/target</outputDirectory> 
-				<resources> <resource> <directory>src/main/resources</directory> <filtering>true</filtering> 
-				</resource> </resources> </configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
