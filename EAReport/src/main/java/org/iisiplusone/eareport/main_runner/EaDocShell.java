@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.iisiplusone.eareport.contextmodel.EARepositoryModule;
 import org.iisiplusone.eareport.generator.EADocumentGeneratorModule;
@@ -27,6 +28,11 @@ public class EaDocShell {
 
 	public static void main(String[] args) throws Exception {
 
+		Properties buildProps = new Properties();
+		buildProps.load(EaDocShell.class.getResourceAsStream("/build.properties"));
+		
+		logger.info("Version : "+buildProps.getProperty("application.version"));
+		
 		EaReportProperties properties = cmdLineProperties(args);
 
 		Injector injector = Guice.createInjector(new EADocumentGeneratorModule(),

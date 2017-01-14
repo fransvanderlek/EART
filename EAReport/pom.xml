@@ -99,6 +99,12 @@
 
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <version>1.4</version> 
 				<executions> <execution> <id>copy-build</id> <phase>install</phase> <configuration> 
