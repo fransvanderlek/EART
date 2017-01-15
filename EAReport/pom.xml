@@ -13,6 +13,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<deploy-directory>${basedir}/deploy</deploy-directory>
 		<ssjavacom.path>"C:\Program Files (x86)\Sparx Systems\EA\Java API"</ssjavacom.path>
+		<author.name>iisiplusone</author.name>
 	</properties>
 
 	<dependencies>
@@ -124,6 +125,7 @@
 								</manifest>
 								<manifestEntries>
 									<mode>development</mode>
+              						<Built-By>${author.name}</Built-By>
 								</manifestEntries>
 							</archive>
 						</configuration>
