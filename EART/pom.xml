@@ -61,7 +61,7 @@
 			<groupId>org.sparx</groupId>
 			<artifactId>eaapi</artifactId>
 			<version>1.0.0</version>
-			<scope>compile,test</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
