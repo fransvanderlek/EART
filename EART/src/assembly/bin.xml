@@ -31,10 +31,11 @@
           </includes>
         </fileSet>
         <fileSet>
-          <directory>deploy</directory>
+          <directory>src/assembly</directory>
           <outputDirectory>/</outputDirectory>
           <includes>
-            <include>*</include>
+            <include>*.bat</include>
+            <include>*.properties</include>
           </includes>
         </fileSet>
        </fileSets>
